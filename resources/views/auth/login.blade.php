@@ -55,12 +55,20 @@
                             <label for="email" class="">Email</label>
                             <input type="email" id="email" class="form-control" value="{{ session('email') ?? '' }}"
                                 name="email" placeholder="Email address here" required />
+
+                            @error('email')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
                         </div>
                         <!-- Password -->
                         <div class="mb-3">
                             <label for="password" class="form-label">Password</label>
                             <input type="password" id="password" class="form-control" name="password"
                                 value="{{ session('password') }}" required />
+
+                            @error('password')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
                         </div>
                         <!-- Checkbox -->
                         <div class="d-lg-flex justify-content-between align-items-center mb-4">

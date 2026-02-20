@@ -21,41 +21,7 @@
 
 
 
-                    {{-- Role Management --}}
-                  <li class="nav-item {{ request()->routeIs('banner.*') ? 'active' : '' }}">
-                      <a class="nav-link has-arrow" data-bs-toggle="collapse" data-bs-target="#bannerManagementCollapse"
-                          aria-expanded="{{ request()->routeIs('banner.*') ? 'true' : 'false' }}"
-                          aria-controls="bannerManagementCollapse">
-                          <i data-feather="shield" class="nav-icon me-2 icon-xxs"></i>
-                          Role Management
-                      </a>
 
-                      <div id="bannerManagementCollapse"
-                          class="collapse {{ request()->routeIs('user.*', 'role.*', 'permission.*') ? 'show' : '' }}"
-                          data-bs-parent="#sidebarMenu">
-
-                          <ul class="nav flex-column ms-3">
-                              {{-- Users --}}
-                            
-
-                              {{-- Roles --}}
-                              <li class="nav-item">
-                                  <a class="nav-link {{ request()->routeIs('role.*') ? 'active' : '' }}"
-                                      href="{{ route('role.index') }}">
-                                      Roles
-                                  </a>
-                              </li>
-
-                              {{-- Permissions --}}
-                              <li class="nav-item">
-                                  <a class="nav-link {{ request()->routeIs('permission.*') ? 'active' : '' }}"
-                                      href="{{ route('permission.index') }}">
-                                      Permissions
-                                  </a>
-                              </li>
-                          </ul>
-                      </div>
-                  </li>
 
 
 
@@ -80,28 +46,7 @@
                       </a>
                   </li>
 
-                  {{-- User Management
-                  <li class="nav-item {{ request()->routeIs('product.*', 'category.*') ? 'active' : '' }}">
-                      <a class="nav-link has-arrow" href="#!" data-bs-toggle="collapse"
-                          data-bs-target="#productCollapse"
-                          aria-expanded="{{ request()->routeIs('product.*', 'category.*') ? 'true' : 'false' }}"
-                          aria-controls="productCollapse">
-                          <i data-feather="box" class="nav-icon me-2 icon-xxs"></i>Customer Management
-                      </a>
-                      <div id="productCollapse"
-                          class="collapse {{ request()->routeIs('product.*', 'category.*') ? 'show' : '' }}"
-                          data-bs-parent="#productCollapse">
-                          <ul class="nav flex-column ms-3">
-                              <li class="nav-item">
-                                  <a class="nav-link {{ request()->routeIs('product.index') ? 'active' : '' }}"
-                                      href="">
-                                      Customer List
-                                  </a>
-                              </li>
 
-                          </ul>
-                      </div>
-                  </li> --}}
 
 
 
@@ -121,45 +66,89 @@
 
 
                   {{-- Role Management --}}
-                  <li class="nav-item {{ request()->routeIs('user.*', 'role.*', 'permission.*') ? 'active' : '' }}">
+                  <li class="nav-item {{ request()->routeIs('assettype.*') ? 'active' : '' }}">
                       <a class="nav-link has-arrow" data-bs-toggle="collapse" data-bs-target="#roleManagementCollapse"
-                          aria-expanded="{{ request()->routeIs('users.*', 'roles.*', 'permissions.*') ? 'true' : 'false' }}"
+                          aria-expanded="{{ request()->routeIs('assettype.*') ? 'true' : 'false' }}"
                           aria-controls="roleManagementCollapse">
                           <i data-feather="shield" class="nav-icon me-2 icon-xxs"></i>
-                          Role Management
+                          Asset Mangement
                       </a>
 
                       <div id="roleManagementCollapse"
-                          class="collapse {{ request()->routeIs('user.*', 'role.*', 'permission.*') ? 'show' : '' }}"
+                          class="collapse {{ request()->routeIs('assettype.*') ? 'show' : '' }}"
                           data-bs-parent="#sidebarMenu">
 
                           <ul class="nav flex-column ms-3">
                               {{-- Users --}}
                               <li class="nav-item">
-                                  <a class="nav-link {{ request()->routeIs('user.*') ? 'active' : '' }}"
-                                      href="{{ route('user.index') }}">
-                                      Users
+                                  <a class="nav-link {{ request()->routeIs('assettype*') ? 'active' : '' }}"
+                                      href="{{ route('assettype.index') }}">
+                                      Asset set
                                   </a>
                               </li>
 
-                              {{-- Roles --}}
-                              <li class="nav-item">
-                                  <a class="nav-link {{ request()->routeIs('role.*') ? 'active' : '' }}"
-                                      href="{{ route('role.index') }}">
-                                      Roles
-                                  </a>
-                              </li>
 
-                              {{-- Permissions --}}
-                              <li class="nav-item">
-                                  <a class="nav-link {{ request()->routeIs('permission.*') ? 'active' : '' }}"
-                                      href="{{ route('permission.index') }}">
-                                      Permissions
-                                  </a>
-                              </li>
                           </ul>
                       </div>
                   </li>
+
+
+
+
+                   {{-- Role Management --}}
+                  <li class="nav-item {{ request()->routeIs('condition.*') ? 'active' : '' }}">
+                      <a class="nav-link has-arrow" data-bs-toggle="collapse" data-bs-target="#conditionMangement"
+                          aria-expanded="{{ request()->routeIs('condition.*') ? 'true' : 'false' }}"
+                          aria-controls="conditionMangement">
+                          <i data-feather="shield" class="nav-icon me-2 icon-xxs"></i>
+                          Condition Management
+                      </a>
+
+                      <div id="conditionMangement"
+                          class="collapse {{ request()->routeIs('condition.*') ? 'show' : '' }}"
+                          data-bs-parent="#sidebarMenu">
+
+                          <ul class="nav flex-column ms-3">
+                              {{-- Users --}}
+                              <li class="nav-item">
+                                  <a class="nav-link {{ request()->routeIs('condition*') ? 'active' : '' }}"
+                                      href="{{ route('condition.index') }}">
+                                      Condition Set
+                                  </a>
+                              </li>
+
+
+                          </ul>
+                      </div>
+                    </li>
+
+
+                   <li class="nav-item {{ request()->routeIs('title.*') ? 'active' : '' }}">
+                      <a class="nav-link has-arrow" data-bs-toggle="collapse" data-bs-target="#titleMangement"
+                          aria-expanded="{{ request()->routeIs('title.*') ? 'true' : 'false' }}"
+                          aria-controls="titleMangement">
+                          <i data-feather="shield" class="nav-icon me-2 icon-xxs"></i>
+                         Situation Management
+                      </a>
+
+                      <div id="titleMangement"
+                          class="collapse {{ request()->routeIs('title.*') ? 'show' : '' }}"
+                          data-bs-parent="#sidebarMenu">
+
+                          <ul class="nav flex-column ms-3">
+                              {{-- Users --}}
+                              <li class="nav-item">
+                                  <a class="nav-link {{ request()->routeIs('title*') ? 'active' : '' }}"
+                                      href="{{ route('title.index') }}">
+                                      Title Situation Set
+                                  </a>
+                              </li>
+
+
+                          </ul>
+                      </div>
+                    </li>
+
 
 
 
@@ -206,17 +195,7 @@
                       </div>
                   </li>
 
-                  {{-- Logout --}}
-                  {{--  <li class="nav-item">
-                      <a class="nav-link" href="#"
-                          onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                          <i data-feather="log-out" class="nav-icon me-2 icon-xxs"></i>
-                          Logout
-                      </a>
-                      <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                          @csrf
-                      </form>
-                  </li>  --}}
+
               </ul>
 
           </div>

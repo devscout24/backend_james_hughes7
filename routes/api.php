@@ -26,15 +26,10 @@ Route::controller(AuthController::class)->group(function () {
     Route::post('otp/check', 'checkOtp');
     Route::post('reset/password', 'resetPassword');
     Route::post('/resend/otp', 'resendOtp');
-  
+
 });
 
 
-Route::controller(ReviewController::class)->group(function () {
-    Route::get('/get-review', 'getReview');
-    Route::post('/store-review', 'storeReview')->middleware('auth:api');
-    Route::get('/get-admin/review', 'getAdminReview');
-});
 
 Route::middleware('auth:api')->group(function () {
 
@@ -47,3 +42,4 @@ Route::controller(AuthController::class)->group(function () {
 
 
 });
+require __DIR__ . '/shahin.php';
