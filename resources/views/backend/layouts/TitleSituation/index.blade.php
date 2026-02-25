@@ -51,13 +51,13 @@
                         <div class="mb-3">
                             <label class="form-label fw-semibold">Title Situation</label>
                             <input type="text" name="titleSituation" class="form-control" placeholder="Enter title situation">
-                            <div class="text-danger" id="error-titleSituation"></div>
+                            <div class="text-danger error-field" id="error-titleSituation"></div>
                         </div>
 
                         <div class="mb-3">
                             <label class="form-label fw-semibold">Description</label>
                             <textarea name="description" class="form-control" rows="3" placeholder="Enter description"></textarea>
-                            <div class="text-danger" id="error-description"></div>
+                            <div class="text-danger error-field" id="error-description"></div>
                         </div>
 
                         <div class="text-end">
@@ -87,11 +87,13 @@
                         <div class="mb-3">
                             <label class="form-label fw-semibold">Title Situation</label>
                             <input type="text" name="titleSituation" class="form-control">
+                            <div class="text-danger error-field" id="edit-error-titleSituation"></div>
                         </div>
 
                         <div class="mb-3">
                             <label class="form-label fw-semibold">Description</label>
                             <textarea name="description" class="form-control" rows="3"></textarea>
+                            <div class="text-danger error-field" id="edit-error-description"></div>
                         </div>
 
                         <div class="d-flex justify-content-end gap-2">
@@ -125,6 +127,7 @@ function hideEditForm(){
     $('#editForm').addClass('d-none');
     $('#addForm').removeClass('d-none');
     $('#editTitleSituationForm')[0].reset();
+    $('.error-field').html('');
 }
 
 $(document).ready(function(){
@@ -147,8 +150,24 @@ $(document).ready(function(){
         ]
     });
 
-    // Create
+    // --- Create with Frontend Validation ---
     $('#createBtn').click(function(){
+
+        $('.error-field').html('');
+
+        let titleSituation = $('#addTitleSituationForm input[name="titleSituation"]').val().trim();
+        let description = $('#addTitleSituationForm textarea[name="description"]').val().trim();
+        let isValid = true;
+
+        if(titleSituation === ''){
+            $('#error-titleSituation').text('Title Situation is required');
+            isValid = false;
+        }
+        if(description === ''){
+            $('#error-description').text('Description is required');
+            isValid = false;
+        }
+        if(!isValid) return;
 
         let formData = new FormData($('#addTitleSituationForm')[0]);
 
@@ -162,23 +181,42 @@ $(document).ready(function(){
                 table.ajax.reload();
                 $('#addTitleSituationForm')[0].reset();
                 toastr.success('Created Successfully');
+            },
+            error:function(){
+                toastr.error('Failed to create');
             }
         });
     });
 
-    // Show Edit
+    // --- Show Edit ---
     $(document).on('click','.edit',function(){
-
         $('#addForm').addClass('d-none');
         $('#editForm').removeClass('d-none');
 
         $('#editId').val($(this).data('id'));
         $('#editTitleSituationForm input[name="titleSituation"]').val($(this).data('titlesituation'));
         $('#editTitleSituationForm textarea[name="description"]').val($(this).data('description'));
+        $('.error-field').html('');
     });
 
-    // Update
+    // --- Update with Frontend Validation ---
     $('#updateBtn').click(function(){
+
+        $('.error-field').html('');
+
+        let titleSituation = $('#editTitleSituationForm input[name="titleSituation"]').val().trim();
+        let description = $('#editTitleSituationForm textarea[name="description"]').val().trim();
+        let isValid = true;
+
+        if(titleSituation === ''){
+            $('#edit-error-titleSituation').text('Title Situation is required');
+            isValid = false;
+        }
+        if(description === ''){
+            $('#edit-error-description').text('Description is required');
+            isValid = false;
+        }
+        if(!isValid) return;
 
         let id = $('#editId').val();
         let formData = new FormData($('#editTitleSituationForm')[0]);
@@ -193,11 +231,14 @@ $(document).ready(function(){
                 table.ajax.reload();
                 hideEditForm();
                 toastr.success('Updated Successfully');
+            },
+            error:function(){
+                toastr.error('Failed to update');
             }
         });
     });
 
-    // Delete
+    // --- Delete ---
     $(document).on('click','.delete',function(){
 
         let id = $(this).data('id');
@@ -210,16 +251,17 @@ $(document).ready(function(){
         }).then((result)=>{
 
             if(result.isConfirmed){
-
                 $.ajax({
                     url:`/admin/title-situation/delete/${id}`,
                     method:'POST',
                     success:function(){
                         table.ajax.reload();
                         toastr.success('Deleted Successfully');
+                    },
+                    error:function(){
+                        toastr.error('Failed to delete');
                     }
                 });
-
             }
 
         });

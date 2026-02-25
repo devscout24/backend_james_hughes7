@@ -2,13 +2,10 @@
 
 namespace App\Http\Controllers\Backend;
 
-use Carbon\Carbon;
-use App\Models\User;
-use App\Models\Order;
-use App\Models\Product;
-use App\Models\OrderItemDetail;
-use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+
+use App\Models\Lead;
+use Carbon\Carbon;
 
 class BackendController extends Controller
 {
@@ -16,10 +13,11 @@ class BackendController extends Controller
     public function index()
     {
 
+      $totalleads=Lead::count();
+      $leads=Lead::orderBy("created_at","desc")->take(5)->get();
 
 
-
-        return view('backend.layouts.dashboard');
+        return view('backend.layouts.dashboard',compact('totalleads','leads'));
     }
 
 

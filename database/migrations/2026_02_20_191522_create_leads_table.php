@@ -29,7 +29,7 @@ return new class extends Migration
 
             $table->string('sellerUpside')->nullable();
 
-
+                $table->enum('status', ['pending', 'contacted_by_mail', 'contacted_by_message', 'not_interested'])->nullable()->default('pending'); ;
            //contact
             $table->string('fullName')->nullable();
             $table->string('phone')->nullable();

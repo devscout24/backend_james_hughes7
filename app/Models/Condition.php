@@ -10,4 +10,8 @@ class Condition extends Model
         'condition',
         'describtion',
     ];
+    public function leads()
+    {
+        return $this->hasMany(Lead::class);
+    }
 }

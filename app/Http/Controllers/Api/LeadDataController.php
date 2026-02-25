@@ -14,7 +14,13 @@ class LeadDataController extends Controller
     use ApiResponse;
     public function AssetData(){
         try{
-           $data=Asset::all();
+           $data=Asset::with('property')->get();
+
+           $data->map(function($item){
+            $item->image=asset($item->image);
+            return $item;
+           });
+
            return $this->success($data);
         }
         catch(\Exception $e){

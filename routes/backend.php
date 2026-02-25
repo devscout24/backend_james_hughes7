@@ -2,11 +2,11 @@
 
 use App\Http\Controllers\Backend\BackendController;
 use App\Http\Controllers\Backend\BannerController;
-use App\Http\Controllers\Backend\TagController;
-use App\Http\Controllers\Backend\TruckManageController;
-use App\Http\Controllers\Category\CategoryController;
+use App\Http\Controllers\Backend\LeadManage;
+
+
 use App\Http\Controllers\Dynamic\DynamicPageController;
-use App\Http\Controllers\Product\ProductController;
+
 use App\Http\Controllers\RolePermission\PermissionController;
 use App\Http\Controllers\RolePermission\RoleController;
 use App\Http\Controllers\RolePermission\RolePermissionController;
@@ -16,6 +16,7 @@ use App\Http\Controllers\Settings\MailSettingController;
 use App\Http\Controllers\Settings\ProfileSettingController;
 use App\Http\Controllers\Settings\SystemController;
 use Illuminate\Support\Facades\Route;
+
 
 
 // Route::get('/', [BackendController::class, 'Page404'])->name('dashboard');
@@ -28,6 +29,16 @@ use Illuminate\Support\Facades\Route;
            Route::get('/banner/edit/{id}', 'edit')->name('banner.edit');
            Route::put('/banner/update/{id}', 'update')->name('banner.update');
            Route::get('/banner/destroy/{id}', 'destroy')->name('banner.destroy');
+       });
+
+       Route::controller(LeadManage::class)->group(function () {
+                   Route::get('/leads/manage/index', 'index')->name('lead.manage.index');
+                 Route::get('/leads/get-data', 'getData')->name('lead.manage.getdata');
+                Route::get('/leads/show/{id}', 'show')->name('leads.manage.show');
+                Route::get('/leads/mail/{id}', 'mail')->name('leads.manage.mail');
+                Route::post('/lead/client/send/email/{id}', 'sendEmail')->name('lead.client.send.email');
+              Route::get('/admin/leads/delete/{id}', 'destroy')->name('leads.manage.destroy');
+              Route::post('/admin/leads/change-status/{id}', 'statusUpdate')->name('leads.manage.status.update');
        });
  });
 

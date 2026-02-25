@@ -87,11 +87,13 @@
                         <div class="mb-3">
                             <label class="form-label fw-semibold">Condition</label>
                             <input type="text" name="condition" class="form-control">
+                            <div class="text-danger error-field" id="edit-error-condition"></div>
                         </div>
 
                         <div class="mb-3">
                             <label class="form-label fw-semibold">Description</label>
                             <textarea name="describtion" class="form-control" rows="3"></textarea>
+                            <div class="text-danger error-field" id="edit-error-describtion"></div>
                         </div>
 
                         <div class="d-flex justify-content-end gap-2">
@@ -111,25 +113,25 @@
     </div>
 </div>
 @endsection
+
 @push('scripts')
 <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script>
 
+<script>
 function hideEditForm(){
     $('#editForm').addClass('d-none');
     $('#addForm').removeClass('d-none');
     $('#editConditionForm')[0].reset();
+    $('.error-field').html('');
 }
 
 $(document).ready(function(){
 
     $.ajaxSetup({
-    headers: {
-        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-    }
-});
+        headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}
+    });
 
     const table = $('#conditionTable').DataTable({
         processing:true,
@@ -143,8 +145,25 @@ $(document).ready(function(){
         ]
     });
 
-    // Create
+    // --- Create Condition with Frontend Validation ---
     $('#createConditionBtn').click(function(){
+
+        // Clear previous errors
+        $('.error-field').html('');
+
+        let condition = $('#addConditionForm input[name="condition"]').val().trim();
+        let describtion = $('#addConditionForm textarea[name="describtion"]').val().trim();
+        let isValid = true;
+
+        if(condition === ''){
+            $('#error-condition').text('Condition is required');
+            isValid = false;
+        }
+        if(describtion === ''){
+            $('#error-describtion').text('Description is required');
+            isValid = false;
+        }
+        if(!isValid) return;
 
         let formData = new FormData($('#addConditionForm')[0]);
 
@@ -158,23 +177,42 @@ $(document).ready(function(){
                 table.ajax.reload();
                 $('#addConditionForm')[0].reset();
                 toastr.success('Condition Created Successfully');
+            },
+            error:function(){
+                toastr.error('Failed to create condition');
             }
         });
     });
 
-    // Edit show
+    // --- Edit Show ---
     $(document).on('click','.edit',function(){
-
         $('#addForm').addClass('d-none');
         $('#editForm').removeClass('d-none');
 
         $('#editConditionId').val($(this).data('id'));
         $('#editConditionForm input[name="condition"]').val($(this).data('condition'));
         $('#editConditionForm textarea[name="describtion"]').val($(this).data('describtion'));
+        $('.error-field').html('');
     });
 
-    // Update
+    // --- Update Condition with Frontend Validation ---
     $('#updateConditionBtn').click(function(){
+        // Clear previous errors
+        $('.error-field').html('');
+
+        let condition = $('#editConditionForm input[name="condition"]').val().trim();
+        let describtion = $('#editConditionForm textarea[name="describtion"]').val().trim();
+        let isValid = true;
+
+        if(condition === ''){
+            $('#edit-error-condition').text('Condition is required');
+            isValid = false;
+        }
+        if(describtion === ''){
+            $('#edit-error-describtion').text('Description is required');
+            isValid = false;
+        }
+        if(!isValid) return;
 
         let id = $('#editConditionId').val();
         let formData = new FormData($('#editConditionForm')[0]);
@@ -189,11 +227,15 @@ $(document).ready(function(){
                 table.ajax.reload();
                 hideEditForm();
                 toastr.success('Condition Updated Successfully');
+            },
+            error:function(){
+                toastr.error('Failed to update condition');
             }
         });
     });
 
-     $(document).on('click','.delete',function(){
+    // --- Delete Condition ---
+    $(document).on('click','.delete',function(){
 
         let id = $(this).data('id');
 
@@ -203,22 +245,20 @@ $(document).ready(function(){
             showCancelButton:true,
             confirmButtonColor:'#d33',
         }).then((result)=>{
-
             if(result.isConfirmed){
-
                 $.ajax({
                     url:`/admin/condition/delete/${id}`,
                     method:'POST',
-                    success:function(response){
+                    success:function(){
                         table.ajax.reload();
-                        toastr.success('Asset Deleted Successfully');
+                        toastr.success('Condition Deleted Successfully');
+                    },
+                    error:function(){
+                        toastr.error('Failed to delete condition');
                     }
                 });
-
             }
-
         });
-
     });
 
 });
